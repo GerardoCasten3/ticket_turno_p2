@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ticket #{{ ticket.id }}{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/ticket_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<span id="id_ticket" style="display: none;">{{ ticket.id }}</span>
+<div class="ticket-container">
+    <div class="ticket-header">
+        <div class="img-text">
+            <div class="ticket-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l3 3L22 4"></path>
+                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                </svg>
+            </div>  
+        <h1>¡Ticket Generado Exitosamente!</h1>
+        <p class="ticket-subtitle">Tu cita ha sido registrada en el sistema</p>
+        </div>
+        <div class="qr-aside">
+            <div id="qrcode" class="qrcode" style="display: none;"></div>
+        </div>
+    </div>
+
+    <div class="ticket-number">
+        <span class="label">Número de Ticket</span>
+        <span class="number">#{{ ticket.id|stringformat:"05d" }}</span>
+    </div>
+
+    <div class="ticket-content">
+        <section class="info-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Información de la Cita
+            </h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Fecha de cita:</span>
+                    <span class="info-value">{{ ticket.fecha_cita|date:"d/m/Y" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hora:</span>
+                    <span class="info-value">{{ ticket.fecha_cita|date:"H:i" }} hrs</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Persona que solicita:</span>
+                    <span class="info-value">{{ ticket.nombre_interesado }}</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Asunto:</span>
+                    <span class="info-value">{{ ticket.asunto.descripcion }}</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Datos del Alumno
+            </h2>
+            <div class="info-grid">
+                <div class="info-item full-width">
+                    <span class="info-label">Nombre completo:</span>
+                    <span class="info-value">{{ ticket.alumno_cita }}</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">CURP:</span>
+                    <span class="info-value curp">{{ ticket.alumno_cita.curp }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Teléfono:</span>
+                    <span class="info-value">{{ ticket.alumno_cita.telefono }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Celular:</span>
+                    <span class="info-value">{{ ticket.alumno_cita.celular }}</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Correo:</span>
+                    <span class="info-value">{{ ticket.alumno_cita.email }}</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Información Académica y Ubicación
+            </h2>
+            <div class="info-grid">
+                <div class="info-item full-width">
+                    <span class="info-label">Nivel educativo:</span>
+                    <span class="info-value">{{ ticket.nivel_educativo.nombre }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estado:</span>
+                    <span class="info-value">{{ ticket.municipio.estado.nombre }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Municipio:</span>
+                    <span class="info-value">{{ ticket.municipio.nombre }}</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="additional-info">
+            <div class="info-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <p><strong>Importante:</strong> Guarda este número de ticket para futuras consultas.</p>
+            </div>
+            <div class="info-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <p><strong>Recordatorio:</strong> Llega 15 minutos antes de tu cita.</p>
+            </div>
+        </div>
+
+        <div class="ticket-footer">
+            <p class="registration-date">Ticket generado el {{ ticket.fecha_creado|date:"d/m/Y" }} a las {{ ticket.fecha_creado|date:"H:i" }} hrs</p>
+            <div class="action-buttons">
+                <button onclick="window.print()" class="btn-print">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Imprimir Ticket
+                </button>
+                <a href="{% url 'ticket_view' %}" class="btn-new">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Generar Nuevo Ticket
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/ticket_detail.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+{% endblock %}

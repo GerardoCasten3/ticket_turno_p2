@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Editar ticket{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/ticket_turno.css' %}">
+<link rel="stylesheet" href="{% static 'css/edit_ticket.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Editar ticket de turno #{{ ticket.id }}</h1>
+<form method="POST" action="{% url 'update_ticket' ticket.id %}">
+    {% csrf_token %}
+    <div class="form-row">
+        <label for="full_name_request">Nombre completo de quien realiza el trámite:*</label>
+        <input type="text" id="full_name_request" name="full_name_request" 
+               value="{{ ticket.nombre_interesado }}" placeholder="Ingrese nombre solicitante" required>
+
+        <label for="curp">CURP:*</label>
+        <input type="text" maxlength="18" id="curp" name="curp" 
+               value="{{ ticket.alumno_cita.curp }}" placeholder="Máx. 18 caracteres" required>
+    </div>
+
+    <div class="form-row">
+        <label for="student_name">Nombre:*</label>
+        <input type="text" id="student_name" name="student_name" 
+               value="{{ ticket.alumno_cita.nombre }}" placeholder="Ingrese nombre del alumno" required>
+
+        <label for="last_name1">Apellido Paterno:*</label>
+        <input type="text" id="last_name1" name="last_name1" 
+               value="{{ ticket.alumno_cita.apellido_paterno }}" placeholder="Ingrese apellido paterno" required>
+
+        <label for="last_name2">Apellido Materno:*</label>
+        <input type="text" id="last_name2" name="last_name2" 
+               value="{{ ticket.alumno_cita.apellido_materno }}" placeholder="Ingrese apellido materno" required>
+    </div>
+
+    <div class="form-row">
+        <label for="telephone">Teléfono:*</label>
+        <input type="tel" maxlength="10" id="telephone" name="telephone" 
+               value="{{ ticket.alumno_cita.telefono }}" placeholder="Máx. 10 caracteres" required>
+
+        <label for="cellphone">Celular:*</label>
+        <input type="tel" maxlength="10" id="cellphone" name="cellphone" 
+               value="{{ ticket.alumno_cita.celular }}" placeholder="Máx. 10 caracteres" required>
+
+        <label for="email">Correo:*</label>
+        <input type="email" id="email" name="email" 
+               value="{{ ticket.alumno_cita.email }}" placeholder="ejemplo@dominio.com" required>
+    </div>
+
+    <div class="form-row">
+        <label for="level">Nivel al que desea ingresar o que ya cursa el alumno: *</label>
+        <select name="level" id="level" required>
+            <option value="" disabled>Seleccione un nivel</option>
+            {% for nivel in niveles %}
+                <option value="{{ nivel.id }}" {% if nivel.id == ticket.nivel_educativo.id %}selected{% endif %}>
+                    {{ nivel.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-row">
+        <label for="city">Municipio donde desea estudie el alumno: *</label>
+        <select name="city" id="city" required>
+            <option value="" disabled>Seleccione un municipio</option>
+            {% for municipio in municipios %}
+                <option value="{{ municipio.id }}" {% if municipio.id == ticket.municipio.id %}selected{% endif %}>
+                    {{ municipio.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="issue">Seleccione el asunto que va a tratar: *</label>
+        <select name="issue" id="issue" required>
+            <option value="" disabled>Seleccione un asunto</option>    
+            {% for asunto in asuntos %}
+                <option value="{{ asunto.id }}" {% if asunto.id == ticket.asunto.id %}selected{% endif %}>
+                    {{ asunto.descripcion }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row button-row">
+        <button type="submit">Actualizar Ticket</button>
+        <a href="{% url 'get_ticket' ticket.id %}" class="btn-secondary">Cancelar</a>
+    </div>
+    <p>* Campos obligatorios</p>
+</form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Obtener elementos del formulario
+    const city = document.getElementById('city');
+    const form = document.querySelector("form");
+
+    // Manejar cambio de estado
+    state.addEventListener("change", function() {
+        const selectedState = this.value;
+        const citySelect = document.getElementById('city');
+
+        if (selectedState) {
+            let urlState = "{% url 'request_estado_municipios' 0 %}".replace('0', selectedState);
+            fetch(urlState)
+            .then(response => response.json())
+            .then(data => {
+                // Limpiar opciones anteriores
+                citySelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
+                data.forEach(municipio => {
+                    const option = document.createElement('option');
+                    option.value = municipio.id;
+                    option.textContent = municipio.nombre;
+                    citySelect.appendChild(option);
+                });
+                selectMunicipioDiv.style.display = 'flex';
+            })
+            .catch(error => {
+                console.error('Error al cargar municipios:', error);
+            });
+        } else {
+            citySelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
+            selectMunicipioDiv.style.display = 'none';
+        }
+    });
+
+    // Manejar envío del formulario
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        // Validar campos requeridos
+        const requiredFields = [
+            'full_name_request', 'curp', 'student_name', 'last_name1', 
+            'last_name2', 'telephone', 'cellphone', 'email', 'level', 
+            'city', 'issue'
+        ];
+        
+        let isValid = true;
+        let missingFields = [];
+
+        requiredFields.forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (!field.value.trim()) {
+                isValid = false;
+                missingFields.push(field.previousElementSibling.textContent);
+                field.style.borderColor = 'red';
+            } else {
+                field.style.borderColor = '#ccc';
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: 'Por favor complete todos los campos obligatorios:\n' + missingFields.join('\n')
+            });
+            return;
+        }
+
+        // Validaciones adicionales
+        if (!validateCURP()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: 'El CURP debe tener exactamente 18 caracteres'
+            });
+            return;
+        }
+
+        if (!validatePhone('telephone') || !validatePhone('cellphone')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: 'Los números de teléfono deben tener exactamente 10 dígitos'
+            });
+            return;
+        }
+
+        if (!validateEmail()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: 'Por favor ingrese un correo electrónico válido'
+            });
+            return;
+        }
+
+        // Si todas las validaciones pasan, enviar el formulario
+        let response =  await Swal.fire({
+            title: 'Confirmar actualización',
+            text: '¿Está seguro de que desea actualizar el ticket?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar'
+        });
+        if (response.isConfirmed) {
+            this.submit();
+        }
+    });
+
+    // Funciones de validación
+    function validateCURP() {
+        const curp = document.getElementById('curp').value;
+        return curp.length === 18;
+    }
+
+    function validatePhone(fieldId) {
+        const phone = document.getElementById(fieldId).value;
+        return phone.length === 10 && /^\d+$/.test(phone);
+    }
+
+    function validateEmail() {
+        const email = document.getElementById('email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Limitar entrada de caracteres en campos numéricos
+    document.getElementById('telephone').addEventListener('input', function(e) {
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+    });
+
+    document.getElementById('cellphone').addEventListener('input', function(e) {
+        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+    });
+
+    document.getElementById('curp').addEventListener('input', function(e) {
+        this.value = this.value.toUpperCase().substring(0, 18);
+    });
+});
+</script>
+{% endblock %}

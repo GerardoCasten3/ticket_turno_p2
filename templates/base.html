@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% block extra_styles %}{% endblock %}
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <a href="/" id="nav-brand">
+          <span class="nav-brand">Sistema de Ticket de Turno</span>
+        </a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
+          &#9776;
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="{% url 'ticket_view' %}">Nuevo ticket</a></li>
+          <li><a id="search-ticket-link" href="#">Consultar ticket</a></li>
+          <li><a id="edit-ticket-link" href="#">Editar ticket</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      // Verificar carga del DOM
+      document.addEventListener("DOMContentLoaded", function () {
+        // Seleccionar boton search ticket
+        const searchTicketLink = document.getElementById("search-ticket-link");
+        const editTicketLink = document.getElementById("edit-ticket-link");
+
+        // Agregar evento click para el search ticket
+        searchTicketLink.addEventListener("click", function (event) {
+          event.preventDefault(); // Prevenir comportamiento por defecto
+          const response = Swal.fire({
+            title: "Buscar Ticket",
+            input: "text",
+            inputLabel: "Ingrese el número de ticket",
+            inputPlaceholder: "Número de ticket",
+            showCancelButton: true,
+            confirmButtonText: "Buscar",
+            cancelButtonText: "Cancelar",
+            inputValidator: (value) => {
+              if (!value) {
+                return "Por favor ingrese un número de ticket";
+              } else if (isNaN(value)) {
+                return "El número de ticket debe ser numérico";
+              }
+            },
+          });
+          response.then(async (result) => {
+            if (result.isConfirmed) {
+              const ticketNumber = result.value;
+              // Revisar si existe en base de datos
+              let searchURL = "{% url 'search_ticket' 0 %}".replace("0", ticketNumber);
+              const req = await fetch(searchURL);
+              if (req.status === 200) {
+                // Enviar a la página del ticket
+                let getURL = `{% url 'get_ticket' 0 %}`.replace('0', ticketNumber);
+                window.location.href = getURL;
+              } else if (req.status === 404) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "El ticket no existe. Por favor verifique el número e intente nuevamente.",
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Ocurrió un error inesperado. Por favor intente nuevamente más tarde.",
+                });
+              }
+            }
+          });
+        });
+
+        // Agregar evento click para el edit ticket
+        editTicketLink.addEventListener("click", function (event) {
+          event.preventDefault(); // Prevenir comportamiento por defecto
+          const response = Swal.fire({
+            title: "Editar Ticket",
+            input: "text",
+            inputLabel: "Ingrese el número de ticket a editar",
+            inputPlaceholder: "Número de ticket",
+            showCancelButton: true,
+            confirmButtonText: "Buscar",
+            cancelButtonText: "Cancelar",
+            inputValidator: (value) => {
+              if (!value) {
+                return "Por favor ingrese un número de ticket";
+              } else if (isNaN(value)) {
+                return "El número de ticket debe ser numérico";
+              }
+            },
+          });
+          response.then(async (result) => {
+            if (result.isConfirmed) {
+              const ticketNumber = result.value;
+              // Revisar si existe en base de datos
+              let searchURL = "{% url 'search_ticket' 0 %}".replace("0", ticketNumber);
+              const req = await fetch(searchURL);
+              if (req.status === 200) {
+                // Enviar a la página del ticket
+                let editURL = `{% url 'edit_ticket' 0 %}`.replace('0', ticketNumber);
+                window.location.href = editURL;
+              } else if (req.status === 404) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "El ticket no existe. Por favor verifique el número e intente nuevamente.",
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Ocurrió un error inesperado. Por favor intente nuevamente más tarde.",
+                });
+              }
+            }
+          });
+        });
+      });
+
+      // Mobile menu behavior: toggle class, close on outside click / link click / Escape
+      (function () {
+        const mobileToggle = document.getElementById("mobile-menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+
+        if (!mobileToggle || !navMenu) return;
+
+        function openMenu() {
+          navMenu.classList.add("active");
+          mobileToggle.setAttribute("aria-expanded", "true");
+        }
+
+        function closeMenu() {
+          navMenu.classList.remove("active");
+          mobileToggle.setAttribute("aria-expanded", "false");
+        }
+
+        function toggleMenu() {
+          if (navMenu.classList.contains("active")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        }
+
+        mobileToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+
+        // Close menu when a nav link is clicked (helpful on mobile)
+        const navLinks = navMenu.querySelectorAll("a");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            closeMenu();
+          });
+        });
+
+        // Close when clicking outside the nav menu
+        document.addEventListener("click", function (e) {
+          if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target) && navMenu.classList.contains("active")) {
+            closeMenu();
+          }
+        });
+
+        // Close on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && navMenu.classList.contains("active")) {
+            closeMenu();
+          }
+        });
+      })();
+    </script>
+    {% block extra_scripts %}{% endblock %}
+  </body>
+</html>

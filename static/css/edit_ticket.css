@@ -1,0 +1,53 @@
+/* Estilos específicos para el formulario de edición */
+
+.button-row {
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-secondary {
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(63,174,174,1);
+    border-radius: 4px;
+    background: transparent;
+    color: rgba(63,174,174,1);
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(63,174,174,1);
+    color: white;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(63, 174, 174, 0.3);
+}
+
+/* Indicador visual para campos editados */
+input:focus,
+select:focus {
+    border-color: rgb(63, 174, 174);
+    box-shadow: 0 0 8px rgba(63, 174, 174, 0.6);
+}
+
+/* Estilo para el título con número de ticket */
+h1 {
+    color: darkslategrey;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive para los botones */
+@media (max-width: 600px) {
+    .button-row {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-secondary {
+        width: 100%;
+    }
+}
