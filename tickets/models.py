@@ -7,8 +7,8 @@ class Municipio(models.Model):
     contador = models.IntegerField()
 
     class Meta:
-        verbose_name = 'Municipio'
-        verbose_name_plural = 'Municipios'
+        verbose_name = 'CAT01 - Municipio'
+        verbose_name_plural = 'CAT01 - Municipios'
         ordering = ['cve_municipio']
 
     def __str__(self):
@@ -19,8 +19,8 @@ class NivelEducativo(models.Model):
     nombre = models.CharField(max_length=80)
 
     class Meta:
-        verbose_name = 'Nivel Educativo'
-        verbose_name_plural = 'Niveles Educativos'
+        verbose_name = 'CAT02 - Nivel Educativo'
+        verbose_name_plural = 'CAT02 - Niveles Educativos'
         ordering = ['id']
 
     def __str__(self):
@@ -30,8 +30,8 @@ class Asuntos(models.Model):
     descripcion = models.CharField(max_length=250)
 
     class Meta:
-        verbose_name = 'Asunto'
-        verbose_name_plural = 'Asuntos'
+        verbose_name = 'CAT03 - Asunto'
+        verbose_name_plural = 'CAT03 - Asuntos'
         ordering = ['id']
 
     def __str__(self):
@@ -41,8 +41,8 @@ class Status(models.Model):
     descripcion = models.CharField(max_length=80)
 
     class Meta:
-        verbose_name = 'Status'
-        verbose_name_plural = 'Statuses'
+        verbose_name = 'CAT04 - Estatus'
+        verbose_name_plural = 'CAT04 - Estatus'
         ordering = ['id']
 
     def __str__(self):
@@ -58,8 +58,8 @@ class AlumnoCita(models.Model):
     email = models.EmailField(max_length=254)
 
     class Meta:
-        verbose_name = 'Alumno registrado en cita'
-        verbose_name_plural = 'Alumnos registrados en citas'
+        verbose_name = 'INF01 - Alumno registrado en cita'
+        verbose_name_plural = 'INF01 - Alumnos registrados en citas'
         ordering = ['curp']
 
     def __str__(self):
@@ -77,8 +77,8 @@ class Cita(models.Model):
     fecha_creado = models.DateTimeField(auto_now_add=True)
 
     class Meta: 
-        verbose_name = 'Cita'
-        verbose_name_plural = 'Citas'
+        verbose_name = 'INF02 - Cita'
+        verbose_name_plural = 'INF02 - Citas'
         ordering = ['-fecha_creado']
 
     def __str__(self):

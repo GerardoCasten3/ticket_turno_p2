@@ -111,7 +111,7 @@ def post_ticket(request):
             municipio.save()
 
             chars_curp = ''.join(random.sample(curp, 2)).upper()
-            turnoStr = f"{turno}-{municipio.cve_municipio}-{chars_curp}"
+            turnoStr = f"{turno}{municipio.cve_municipio}{chars_curp}"
 
             # Obtener fecha y hora de la última cita registrada
             fecha_cita = obtener_siguiente_fecha_cita()
@@ -133,7 +133,15 @@ def post_ticket(request):
     return JsonResponse({'status': 'error', 'message': 'Petición inválida'}, status=400)
 
 @require_http_methods(["GET"])
-def get_ticket(request, ticket_id):
+def get_ticket(request, ticket_turno):
+    try:
+        ticket = Cita.objects.get(turno=ticket_turno)
+        return render(request, 'ticket_detail.html', {'ticket': ticket})
+    except Cita.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
+    
+@require_http_methods(["GET"])
+def get_ticket_id(request, ticket_id):
     try:
         ticket = Cita.objects.get(id=ticket_id)
         return render(request, 'ticket_detail.html', {'ticket': ticket})
@@ -141,9 +149,10 @@ def get_ticket(request, ticket_id):
         return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
     
 @require_http_methods(["GET"])
-def search_ticket(request, ticket_id):
+def search_ticket(request, ticket_turno):
     try:
-        searched_ticket = Cita.objects.filter(id=ticket_id).exists()
+        print(ticket_turno)
+        searched_ticket = Cita.objects.filter(turno=ticket_turno).exists()
         if searched_ticket:
             return JsonResponse({'status': 'found'}, status=200)
         else:
@@ -152,9 +161,9 @@ def search_ticket(request, ticket_id):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
 @require_http_methods(["GET"])  
-def get_edit_ticket(request, ticket_id):
+def get_edit_ticket(request, ticket_turno):
     try:
-        ticket = Cita.objects.get(id=ticket_id)
+        ticket = Cita.objects.get(turno=ticket_turno)
         niveles = NivelEducativo.objects.all()
         asuntos = Asuntos.objects.all()
         municipios = Municipio.objects.all()
@@ -206,8 +215,7 @@ def update_ticket(request, ticket_id):
         cita.municipio = municipio
         cita.nivel_educativo = nivel_educativo
         cita.save()
-
-        return redirect('get_ticket', ticket_id=ticket_id)
+        return redirect('get_ticket_id', ticket_id=ticket_id)
         
     except Cita.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)

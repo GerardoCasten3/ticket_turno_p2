@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.btn-secondary {
+.btn-primary {
     padding: 0.5rem 1rem;
     border: 2px solid rgba(63,174,174,1);
     border-radius: 4px;
@@ -20,11 +20,32 @@
     transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
+.btn-primary:hover {
     background: rgba(63,174,174,1);
     color: white;
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 4px 12px rgba(63, 174, 174, 0.3);
+}
+
+.btn-secondary {
+    padding: 0.5rem 1rem;
+    border: 2px solid rgb(160, 18, 18);
+    border-radius: 4px;
+    background: transparent;
+    color: rgb(160, 18, 18);
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgb(160, 18, 18);
+    color: white;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(160, 18, 18, 0.3);
 }
 
 /* Indicador visual para campos editados */
