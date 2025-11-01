@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Ticket #{{ ticket.id }}{% endblock %}
+{% block title %}Ticket #{{ ticket.turno }}{% endblock %}
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'css/ticket_detail.css' %}">
 {% endblock %}
 
 {% block content %}
-<span id="id_ticket" style="display: none;">{{ ticket.id }}</span>
+<span id="id_ticket" style="display: none;">{{ ticket.turno }}</span>
 <div class="ticket-container">
     <div class="ticket-header">
         <div class="img-text">
@@ -27,7 +27,7 @@
 
     <div class="ticket-number">
         <span class="label">Número de Ticket</span>
-        <span class="number">#{{ ticket.id|stringformat:"05d" }}</span>
+        <span class="number">#{{ ticket.turno }}</span>
     </div>
 
     <div class="ticket-content">
@@ -105,10 +105,6 @@
                 <div class="info-item full-width">
                     <span class="info-label">Nivel educativo:</span>
                     <span class="info-value">{{ ticket.nivel_educativo.nombre }}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Estado:</span>
-                    <span class="info-value">{{ ticket.municipio.estado.nombre }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Municipio:</span>

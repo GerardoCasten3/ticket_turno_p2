@@ -194,8 +194,7 @@
                 if (result.isConfirmed){
                     // Enviar a los detalles del ticket
                     const ticketId = responseData.ticket_id;
-                    let detailUrl = "{% url 'get_ticket' ticket_id=0 %}";
-                    console.log(detailUrl)
+                    let detailUrl = "{% url 'get_ticket_id' ticket_id=0 %}";
                     detailUrl = detailUrl.replace("/0/", `/${ticketId}/`);
                     window.location.href = detailUrl;
                 }

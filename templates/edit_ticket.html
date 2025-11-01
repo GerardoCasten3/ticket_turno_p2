@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Editar ticket de turno #{{ ticket.id }}</h1>
+<h1>Editar ticket de turno #{{ ticket.turno }}</h1>
 <form method="POST" action="{% url 'update_ticket' ticket.id %}">
     {% csrf_token %}
     <div class="form-row">
@@ -86,7 +86,7 @@
     </div>
 
     <div class="form-row button-row">
-        <button type="submit">Actualizar Ticket</button>
+        <button type="submit" class="btn-primary">Actualizar Ticket</button>
         <a href="{% url 'get_ticket' ticket.id %}" class="btn-secondary">Cancelar</a>
     </div>
     <p>* Campos obligatorios</p>
@@ -99,35 +99,6 @@
     // Obtener elementos del formulario
     const city = document.getElementById('city');
     const form = document.querySelector("form");
-
-    // Manejar cambio de estado
-    state.addEventListener("change", function() {
-        const selectedState = this.value;
-        const citySelect = document.getElementById('city');
-
-        if (selectedState) {
-            let urlState = "{% url 'request_estado_municipios' 0 %}".replace('0', selectedState);
-            fetch(urlState)
-            .then(response => response.json())
-            .then(data => {
-                // Limpiar opciones anteriores
-                citySelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
-                data.forEach(municipio => {
-                    const option = document.createElement('option');
-                    option.value = municipio.id;
-                    option.textContent = municipio.nombre;
-                    citySelect.appendChild(option);
-                });
-                selectMunicipioDiv.style.display = 'flex';
-            })
-            .catch(error => {
-                console.error('Error al cargar municipios:', error);
-            });
-        } else {
-            citySelect.innerHTML = '<option value="" disabled selected>Seleccione un municipio</option>';
-            selectMunicipioDiv.style.display = 'none';
-        }
-    });
 
     // Manejar envío del formulario
     form.addEventListener("submit", async function(event) {
