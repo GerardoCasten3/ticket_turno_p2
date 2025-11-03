@@ -6,8 +6,15 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from .models import Asuntos, Cita, Municipio, NivelEducativo, AlumnoCita, Status
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from captcha.fields import CaptchaField
+from django import forms
 
-# Create your views here.
+
+
+
 @require_http_methods(["GET"])
 def ticket_view(request):
     context = {}
@@ -221,3 +228,26 @@ def update_ticket(request, ticket_id):
         return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+# Crea un formulario simple con captcha
+class LoginFormWithCaptcha(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    captcha = CaptchaField()
+
+def custom_login(request):
+    if request.method == 'POST':
+        form = LoginFormWithCaptcha(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/admin/')  # redirige al admin
+            else:
+                form.add_error(None, 'Usuario o contraseña incorrectos')
+    else:
+        form = LoginFormWithCaptcha()      
+    return render(request, 'admin/login.html', {'form': form})

@@ -1,0 +1,149 @@
+{% extends "admin/base_site.html" %}
+
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+
+    {% comment %} primera FILA {% endcomment %}
+    <div class="row justify-content-center">
+
+      {% comment %} primera METRICA {% endcomment %}
+      <div class="col-md-4 col-sm-8">
+        <div class="card shadow-sm p-4 rounded-4">
+          
+          <!-- Título y combo -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="sales-title mb-0">Citas totales</h6>
+
+          </div>
+
+          <!-- Número principal -->
+          <h2 class="sales-percentage mb-2">{{ total_citas }}</h2>
+
+          <!-- Subtítulo y flecha -->
+          <div class="d-flex align-items-center mb-3">
+            <span class="sales-subtitle me-2">Citas atendidas</span>
+            <h3 class="sub-percentage mb-2">{{ porcentaje_atendidas }}%</h3>
+
+            <span class="arrow-up">▲</span>
+          </div>
+
+          <!-- Barra de progreso -->
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar" 
+                role="progressbar"
+                style="width: {{ porcentaje_atendidas }}%;" 
+                aria-valuenow="{{ percentage|floatformat:0 }}" 
+                aria-valuemin="0" 
+                aria-valuemax="100">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      {% comment %} segunda METRICA {% endcomment %}
+      <div class="col-md-4 col-sm-8">
+        <div class="card shadow-sm p-4 rounded-4">
+          
+          <!-- Título y combo -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="sales-title mb-0">Objetivo del Mes</h6>
+          </div>
+
+          <!-- Número principal -->
+          <h2 class="sales-percentage mb-2">{{ meta }}</h2>
+
+          <!-- Subtítulo y flecha -->
+          <div class="d-flex align-items-center mb-3">
+            <span class="sales-subtitle me-2">Porcentaje del objetivo</span>
+            <h3 class="sub-percentage mb-2">{{ porcentaje_meta }}%</h3>
+
+            <span class="arrow-up">▲</span>
+          </div>
+
+          <!-- Barra de progreso -->
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar" 
+                role="progressbar"
+                style="width: {{ porcentaje_meta }}%;" 
+                aria-valuenow="{{ porcentaje_meta|floatformat:0 }}" 
+                aria-valuemin="0" 
+                aria-valuemax="100">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      {% comment %} segunda nueva METRICA {% endcomment %}
+      <div class="col-md-4 col-sm-8">
+        <div class="card shadow-sm p-4 rounded-4">
+          
+          <!-- Título y combo -->
+          <h6 class="sales-title mb-0">Nivel educativo</h6>
+
+          <!-- Subtítulo y flecha -->
+          <div class="d-flex align-items-center mb-3">
+            <canvas id="barChart2" width="400" height="100"></canvas>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+    
+    {% comment %} segunda FILA {% endcomment %}
+    <div class="row justify-content-center align-items-stretch">
+
+      {% comment %} tercera METRICA {% endcomment %}
+      <div class="col-md-8 col-sm-8">
+        <div class="card shadow-sm p-4 rounded-4">
+          <h6 class="sales-title mb-0">Citas por municipio</h6>
+
+          <canvas id="barChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+
+      {% comment %} cuarta METRICA {% endcomment %}
+      <div class="col-md-4 col-sm-8">
+        <div class="card shadow-sm p-4 rounded-4">
+          
+          <!-- Título y combo -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="sales-title mb-0">Citas por asunto</h6>
+          </div>
+
+
+          <!-- Barra de progreso -->
+          <canvas id="donutChart" width="400" height="200"></canvas>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+{% endblock %}
+
+{% block footer %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+
+    <script src="{% static 'js/dashboard/dona.js' %}"></script>
+    <script src="{% static 'js/dashboard/bar.js' %}"></script>
+    <script src="{% static 'js/dashboard/barNiv.js' %}"></script>
+    
+{% endblock %}

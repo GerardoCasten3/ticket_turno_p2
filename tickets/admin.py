@@ -28,7 +28,7 @@ class AlumnoCitaAdmin(admin.ModelAdmin):
     ordering = ('curp',)
 
 class CitaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'turno', 'nombre_interesado', 'alumno_cita', 'asunto', 'status', 'fecha_cita')
+    list_display = ('id', 'turno', 'nombre_interesado', 'alumno_cita', 'asunto', 'status', 'fecha_cita', 'fecha_creado')
     search_fields = ('alumno_cita__nombre', 'alumno_cita__curp', 'turno')
     ordering = ('id',)
 

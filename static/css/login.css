@@ -1,0 +1,294 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Vend Sans", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #20000c, #8a0033);
+}
+/* Centrar el contenedor principal */
+.login-container {
+  display: flex;
+  justify-content: center;     /* Centra horizontalmente */
+  align-items: center;         /* Centra verticalmente */
+  min-height: 80vh;           /* Ocupa toda la altura visible */
+  background: transparent;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.main-container {
+  display: flex;
+  width: 70%;
+  height: 100%;
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+
+/* IZQUIERDA */
+.left {
+  flex: 1;
+  background: transparent;
+  color: #fff;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.icono {
+  width: 40%;
+  margin-right: 15px;
+}
+
+
+.left h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+.left h2 span {
+  font-size: 2rem;
+}
+
+.left p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* DERECHA */
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 50px 40px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+
+.link {
+  color: #8b0030;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.btn {
+  background: #ccc;
+  color: #666;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: not-allowed;
+  margin-top: 10px;
+}
+
+.btn-outline {
+  margin-top: 10px;
+  background: white;
+  border: 2px solid #8b0030;
+  color: #8b0030;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: #8b0030;
+  color: white;
+}
+
+
+.captcha {
+  margin: 15px 0;
+}
+
+.captcha img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.captcha input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  display: block;
+  margin-top: 5px;
+}
+
+.error-message {
+  background-color: #fee;
+  color: red;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+/* RESPONSIVE DESIGN */
+
+/* --- Tablets (pantallas medianas) --- */
+@media (max-width: 992px) {
+  .main-container {
+    width: 90%;
+  }
+
+  .left, .right {
+    padding: 40px 30px;
+  }
+
+  .left h2 {
+    font-size: 1.6rem;
+  }
+
+  .left h2 span {
+    font-size: 1.8rem;
+  }
+
+  .icono {
+    width: 45%;
+  }
+}
+
+/* --- Celulares grandes --- */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column; /* Cambia de lado a lado a arriba y abajo */
+    width: 85%;
+    box-shadow: none;
+  }
+
+  .left, .right {
+    flex: none;
+    width: 100%;
+    padding: 40px 25px;
+    text-align: center;
+  }
+
+  .left {
+    align-items: center;
+  }
+
+  .icono {
+    width: 55%;
+    margin: 0 auto 20px auto;
+  }
+
+  .left h2 {
+    font-size: 1.5rem;
+  }
+
+  .left h2 span {
+    font-size: 1.6rem;
+  }
+
+  .left p {
+    font-size: 0.95rem;
+  }
+
+  .login-box {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .btn-outline {
+    font-size: 0.95rem;
+    padding: 9px;
+  }
+}
+
+/* --- Celulares pequeños (menos de 480px) --- */
+@media (max-width: 480px) {
+  .main-container {
+    width: 95%;
+  }
+
+  .left, .right {
+    padding: 30px 20px;
+  }
+
+  .left h2 {
+    font-size: 1.3rem;
+  }
+
+  .left h2 span {
+    font-size: 1.5rem;
+  }
+
+  .left p {
+    font-size: 0.9rem;
+  }
+
+  input {
+    font-size: 0.9rem;
+    padding: 9px;
+  }
+
+  .btn-outline {
+    font-size: 0.9rem;
+    padding: 9px;
+  }
+
+  .link {
+    font-size: 0.85rem;
+  }
+}
