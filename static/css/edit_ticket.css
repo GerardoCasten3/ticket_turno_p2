@@ -8,10 +8,10 @@
 
 .btn-primary {
     padding: 0.5rem 1rem;
-    border: 2px solid rgba(63,174,174,1);
+    border: 2px solid #611232;
     border-radius: 4px;
     background: transparent;
-    color: rgba(63,174,174,1);
+    color: #611232;
     text-decoration: none;
     font-size: 1rem;
     cursor: pointer;
@@ -21,7 +21,7 @@
 }
 
 .btn-primary:hover {
-    background: rgba(63,174,174,1);
+    background: #611232;
     color: white;
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 4px 12px rgba(63, 174, 174, 0.3);
@@ -51,8 +51,8 @@
 /* Indicador visual para campos editados */
 input:focus,
 select:focus {
-    border-color: rgb(63, 174, 174);
-    box-shadow: 0 0 8px rgba(63, 174, 174, 0.6);
+    border-color: #611232;
+    box-shadow: 0 0 8px #801a43;
 }
 
 /* Estilo para el título con número de ticket */

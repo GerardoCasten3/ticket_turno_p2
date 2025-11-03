@@ -20,17 +20,19 @@ body {
 nav {
   background: linear-gradient(
     90deg,
-    rgba(63, 174, 174, 1) 0%,
-    rgba(25, 118, 210, 1) 100%
+    #3F0F2C 0%,
+    #611232 100%
   );
   padding: 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
   backdrop-filter: blur(10px);
 }
+
+
 
 .nav-container {
   max-width: 100%;
@@ -42,6 +44,11 @@ nav {
   height: 70px;
 }
 
+.nav-container img {
+  width: 10%;
+}
+
+
 .nav-brand {
   color: white;
   font-size: 1.5rem;
@@ -50,7 +57,9 @@ nav {
   text-decoration: none;
   transition: transform 0.3s ease, text-shadow 0.3s ease;
   letter-spacing: 0.5px;
+  margin-right: 20rem;
 }
+
 
 .nav-brand:hover {
   transform: scale(1.05);
@@ -171,8 +180,8 @@ main {
     right: 0;
     background: linear-gradient(
       90deg,
-      rgba(63, 174, 174, 1) 0%,
-      rgba(25, 118, 210, 1) 100%
+    #3F0F2C 0%,
+    #611232 100%
     );
     flex-direction: column;
     max-height: 0;
@@ -209,5 +218,115 @@ main {
 
   .nav-container {
     padding: 0 1rem;
+  }
+}
+
+
+
+/* 📱 RESPONSIVE DESIGN EXTENDIDO */
+
+/* --- Tablets medianas (hasta 992px) --- */
+@media (max-width: 992px) {
+  .nav-container {
+    margin: 0 1.5rem;
+  }
+
+  .nav-container img {
+    width: 14%;
+  }
+
+  .nav-brand {
+    font-size: 1.3rem;
+    margin-right: 8rem;
+  }
+
+  .nav-menu li a {
+    font-size: 0.95rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+/* --- Celulares grandes (hasta 600px) --- */
+@media (max-width: 600px) {
+  .nav-container {
+    margin: 0 1rem;
+    height: 55px;
+  }
+
+  .nav-container img {
+    width: 22%;
+  }
+
+  .nav-brand {
+    font-size: 1rem;
+    margin-right: 2rem;
+  }
+
+  .mobile-menu-toggle {
+    font-size: 1.4rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .nav-menu {
+    text-align: center;
+  }
+
+  .nav-menu li a {
+    font-size: 0.95rem;
+    padding: 0.9rem 1.5rem;
+  }
+}
+
+/* --- Celulares pequeños (hasta 420px) --- */
+@media (max-width: 420px) {
+  .nav-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    height: auto;
+  }
+
+  .nav-container img {
+    width: 28%;
+    min-width: 90px;
+  }
+
+  .nav-brand {
+    font-size: 0.95rem;
+    margin-right: 0;
+    text-align: left;
+    flex: 1;
+    padding-left: 0.3rem;
+  }
+
+  .mobile-menu-toggle {
+    margin-left: auto;
+    order: 3;
+  }
+
+  .nav-menu {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-menu li a {
+    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
+  }
+}
+
+/* --- Ultra pequeños (hasta 340px) --- */
+@media (max-width: 340px) {
+  .nav-brand {
+    font-size: 0.85rem;
+  }
+
+  .nav-container img {
+    width: 35%;
+  }
+
+  .mobile-menu-toggle {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.5rem;
   }
 }

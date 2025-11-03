@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path
 from . import views
 
@@ -9,4 +10,5 @@ urlpatterns = [
     path('search_ticket/<str:ticket_turno>/', views.search_ticket, name='search_ticket'),
     path('get_edit_ticket/<str:ticket_turno>/', views.get_edit_ticket, name='edit_ticket'),
     path('update_ticket/<int:ticket_id>/', views.update_ticket, name='update_ticket'),
+    path('login/', views.custom_login, name='custom_login'),
 ]

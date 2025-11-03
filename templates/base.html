@@ -11,9 +11,11 @@
   <body>
     <nav>
       <div class="nav-container">
+        <img src="{% static 'images/gob_mexico.png' %}" alt="Gobierno de Mexico">
         <a href="/" id="nav-brand">
           <span class="nav-brand">Sistema de Ticket de Turno</span>
         </a>
+
         <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
           &#9776;
         </button>
@@ -21,6 +23,7 @@
           <li><a href="{% url 'ticket_view' %}">Nuevo ticket</a></li>
           <li><a id="search-ticket-link" href="#">Consultar ticket</a></li>
           <li><a id="edit-ticket-link" href="#">Editar ticket</a></li>
+          <li><a href="{% url 'custom_login' %}">Iniciar Sesión</a></li>
         </ul>
       </div>
     </nav>
