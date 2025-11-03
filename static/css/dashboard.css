@@ -1,0 +1,146 @@
+:root {
+  --color-bg: #e0e0e0;
+  --color-card-bg: rgba(255, 255, 255, 0.4);
+  --color-text-primary: #000000;
+  --color-text-secondary: #000000;
+  --color-accent: #0d7aff;
+  --color-accent-dark: #0c2642;
+  --color-success: #16a34a;
+  --color-option-bg: #ffffff;
+  --color-progress-bg: #e9ecef;
+  --color-select-hover-text: rgb(0, 0, 0);
+}
+
+/* --- ESTILOS --- */
+
+body {
+  background-color: var(--color-bg);
+}
+
+.card {
+    background-color: var(--color-card-bg);
+    padding: 1rem;
+    margin: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    min-height: 249px;
+}
+
+.card h6 {
+  text-align: center;
+  padding-bottom: 0.4rem;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    0deg, 
+    transparent, 
+    transparent 20%, 
+    #7fb9ff
+  );
+  transform: rotate(-45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  border: 1px solid var(--color-accent);
+}
+
+.card:hover::before {
+  opacity: 1;
+  transform: rotate(-45deg) translateY(100%);
+}
+
+
+
+
+.sales-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.sales-select {
+  width: auto;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+}
+
+.sales-select:hover {
+  border: 1px solid;
+  border-color: var(--color-accent);
+  color: var(--color-select-hover-text);
+}
+
+.sales-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(13, 122, 255, 0.3);
+  color: var(--color-text-primary);
+  background-color: var(--color-option-bg);
+}
+
+.sales-select option {
+  background-color: var(--color-option-bg);
+  color: var(--color-text-primary);
+  padding: 8px;
+}
+
+.sales-select option:hover {
+  background-color: var(--color-text-secondary); 
+}
+
+.sales-select option:checked {
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+.sales-percentage {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.sub-percentage {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-success);
+  margin-top: 2.7%;
+  margin-left: auto;
+}
+
+.sales-subtitle {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.arrow-up {
+  color: var(--color-success);
+  font-weight: bold;
+}
+
+.progress {
+  background-color: #918e8e;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent));
+  border-radius: 10px;
+}
+
+

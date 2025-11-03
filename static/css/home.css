@@ -18,7 +18,10 @@
     width: 100px;
     height: 100px;
     margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, rgba(63, 174, 174, 1) 0%, rgba(25, 118, 210, 1) 100%);
+    background: linear-gradient(135deg,
+        #3F0F2C 0%,
+        #611232 100%
+    );
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -45,7 +48,10 @@
     margin: 0 0 1rem;
     font-size: 3rem;
     font-weight: 700;
-    background: linear-gradient(90deg, rgba(63, 174, 174, 1) 0%, rgba(25, 118, 210, 1) 100%);
+        background: linear-gradient(90deg,
+        #3F0F2C 0%,
+        #611232 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -91,7 +97,10 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, rgba(63, 174, 174, 1) 0%, rgba(25, 118, 210, 1) 100%);
+    background: linear-gradient(90deg,
+        #3F0F2C 0%,
+        #611232 100%
+    );
     transform: scaleX(0);
     transition: transform 0.3s ease;
     transform-origin: left;
@@ -215,7 +224,7 @@
 }
 
 .action-card:hover .card-arrow svg {
-    color: #3498db;
+    color: #611232;
 }
 
 
