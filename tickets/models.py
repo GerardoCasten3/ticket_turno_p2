@@ -4,7 +4,7 @@ from django.db import models
 class Municipio(models.Model):
     cve_municipio = models.CharField(max_length=3)
     nombre = models.CharField(max_length=80)
-    contador = models.IntegerField()
+    contador = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'CAT01 - Municipio'
