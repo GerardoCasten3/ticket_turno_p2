@@ -11,12 +11,21 @@
   <body>
     <nav>
       <div class="nav-container">
-        <img src="{% static 'images/gob_mexico.png' %}" alt="Gobierno de Mexico">
+        <img
+          src="{% static 'images/gob_mexico.png' %}"
+          alt="Gobierno de Mexico"
+        />
         <a href="/" id="nav-brand">
           <span class="nav-brand">Sistema de Ticket de Turno</span>
         </a>
 
-        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menú de navegación">
+        <button
+          class="mobile-menu-toggle"
+          id="mobile-menu-toggle"
+          aria-controls="nav-menu"
+          aria-expanded="false"
+          aria-label="Abrir menú de navegación"
+        >
           &#9776;
         </button>
         <ul class="nav-menu" id="nav-menu">
@@ -37,37 +46,52 @@
         const editTicketLink = document.getElementById("edit-ticket-link");
 
         // Agregar evento click para el search ticket
-        searchTicketLink.addEventListener("click", function (event) {
+        searchTicketLink.addEventListener("click", async function (event) {
           event.preventDefault(); // Prevenir comportamiento por defecto
-          const response = Swal.fire({
+          const response = await Swal.fire({
             title: "Buscar Ticket",
-            input: "text",
-            inputLabel: "Ingrese el número de ticket",
-            inputPlaceholder: "Número de ticket",
+            html: `
+            <input id="ticket" class="swal2-input" placeholder="Número de ticket">
+            <input id="curp" class="swal2-input" placeholder="CURP">
+              `,
+            focusConfirm: false,
             showCancelButton: true,
             confirmButtonText: "Buscar",
             cancelButtonText: "Cancelar",
-            inputValidator: (value) => {
-              if (!value) {
-                return "Por favor ingrese un número de ticket";
+            preConfirm: () => {
+              const ticket = document.getElementById("ticket").value;
+              const curp = document.getElementById("curp").value;
+              if (!ticket) {
+                Swal.showValidationMessage(
+                  "Por favor ingrese el número de ticket"
+                );
+              } else if (!curp) {
+                Swal.showValidationMessage(
+                  "Por favor ingrese el CURP registrado en el ticket"
+                );
               }
+              return { ticket, curp };
             },
-          });
-          response.then(async (result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-              const ticketNumber = result.value;
+              const { ticket, curp } = result.value;
               // Revisar si existe en base de datos
-              let searchURL = "{% url 'search_ticket' 0 %}".replace("0", ticketNumber);
+              const searchURL =
+                "{% url 'search_ticket' 'TURNO_PLACEHOLDER' 'CURP_PLACEHOLDER' %}"
+                  .replace("TURNO_PLACEHOLDER", ticket)
+                  .replace("CURP_PLACEHOLDER", curp);
               const req = await fetch(searchURL);
               if (req.status === 200) {
                 // Enviar a la página del ticket
-                let getURL = `{% url 'get_ticket' 0 %}`.replace('0', ticketNumber);
+                const getURL = `{% url 'get_ticket' 'TURNO_PLACEHOLDER' 'CURP_PLACEHOLDER' %}`
+                  .replace("TURNO_PLACEHOLDER", ticket)
+                  .replace("CURP_PLACEHOLDER", curp);
                 window.location.href = getURL;
               } else if (req.status === 404) {
                 Swal.fire({
                   icon: "error",
                   title: "Error",
-                  text: "El ticket no existe. Por favor verifique el número e intente nuevamente.",
+                  text: "El ticket no existe. Por favor verifique el número y el CURPe intente nuevamente.",
                 });
               } else {
                 Swal.fire({
@@ -81,37 +105,52 @@
         });
 
         // Agregar evento click para el edit ticket
-        editTicketLink.addEventListener("click", function (event) {
+        editTicketLink.addEventListener("click", async function (event) {
           event.preventDefault(); // Prevenir comportamiento por defecto
-          const response = Swal.fire({
-            title: "Editar Ticket",
-            input: "text",
-            inputLabel: "Ingrese el número de ticket a editar",
-            inputPlaceholder: "Número de ticket",
+          const response = await Swal.fire({
+            title: "Buscar Ticket",
+            html: `
+            <input id="ticket" class="swal2-input" placeholder="Número de ticket">
+            <input id="curp" class="swal2-input" placeholder="CURP">
+              `,
+            focusConfirm: false,
             showCancelButton: true,
             confirmButtonText: "Buscar",
             cancelButtonText: "Cancelar",
-            inputValidator: (value) => {
-              if (!value) {
-                return "Por favor ingrese un número de ticket";
+            preConfirm: () => {
+              const ticket = document.getElementById("ticket").value;
+              const curp = document.getElementById("curp").value;
+              if (!ticket) {
+                Swal.showValidationMessage(
+                  "Por favor ingrese el número de ticket"
+                );
+              } else if (!curp) {
+                Swal.showValidationMessage(
+                  "Por favor ingrese el CURP registrado en el ticket"
+                );
               }
+              return { ticket, curp };
             },
-          });
-          response.then(async (result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-              const ticketNumber = result.value;
+              const { ticket, curp } = result.value;
               // Revisar si existe en base de datos
-              let searchURL = "{% url 'search_ticket' 0 %}".replace("0", ticketNumber);
+              const searchURL =
+                "{% url 'search_ticket' 'TURNO_PLACEHOLDER' 'CURP_PLACEHOLDER' %}"
+                  .replace("TURNO_PLACEHOLDER", ticket)
+                  .replace("CURP_PLACEHOLDER", curp);
               const req = await fetch(searchURL);
               if (req.status === 200) {
                 // Enviar a la página del ticket
-                let editURL = `{% url 'edit_ticket' 0 %}`.replace('0', ticketNumber);
+                const editURL = `{% url 'edit_ticket' 'TURNO_PLACEHOLDER' 'CURP_PLACEHOLDER' %}`
+                  .replace("TURNO_PLACEHOLDER", ticket)
+                  .replace("CURP_PLACEHOLDER", curp);
                 window.location.href = editURL;
               } else if (req.status === 404) {
                 Swal.fire({
                   icon: "error",
                   title: "Error",
-                  text: "El ticket no existe. Por favor verifique el número e intente nuevamente.",
+                  text: "El ticket no existe. Por favor verifique el número y el CURP e intente nuevamente.",
                 });
               } else {
                 Swal.fire({
@@ -165,7 +204,11 @@
 
         // Close when clicking outside the nav menu
         document.addEventListener("click", function (e) {
-          if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target) && navMenu.classList.contains("active")) {
+          if (
+            !navMenu.contains(e.target) &&
+            !mobileToggle.contains(e.target) &&
+            navMenu.classList.contains("active")
+          ) {
             closeMenu();
           }
         });
