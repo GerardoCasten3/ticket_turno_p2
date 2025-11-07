@@ -11,11 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from captcha.fields import CaptchaField
 from django import forms
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
-from reportlab.pdfgen import canvas
-from io import BytesIO
-from datetime import datetime
+
 
 @require_http_methods(["GET"])
 def ticket_view(request):
