@@ -11,9 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from captcha.fields import CaptchaField
 from django import forms
-
-
-
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from datetime import datetime
 
 @require_http_methods(["GET"])
 def ticket_view(request):
@@ -140,9 +142,9 @@ def post_ticket(request):
     return JsonResponse({'status': 'error', 'message': 'Petición inválida'}, status=400)
 
 @require_http_methods(["GET"])
-def get_ticket(request, ticket_turno):
+def get_ticket(request, ticket_turno, curp):
     try:
-        ticket = Cita.objects.get(turno=ticket_turno)
+        ticket = Cita.objects.get(turno=ticket_turno, alumno_cita__curp=curp)
         return render(request, 'ticket_detail.html', {'ticket': ticket})
     except Cita.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
@@ -156,10 +158,10 @@ def get_ticket_id(request, ticket_id):
         return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
     
 @require_http_methods(["GET"])
-def search_ticket(request, ticket_turno):
+def search_ticket(request, ticket_turno, curp):
     try:
         print(ticket_turno)
-        searched_ticket = Cita.objects.filter(turno=ticket_turno).exists()
+        searched_ticket = Cita.objects.filter(turno=ticket_turno, alumno_cita__curp=curp).exists()
         if searched_ticket:
             return JsonResponse({'status': 'found'}, status=200)
         else:
@@ -168,9 +170,9 @@ def search_ticket(request, ticket_turno):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
 @require_http_methods(["GET"])  
-def get_edit_ticket(request, ticket_turno):
+def get_edit_ticket(request, ticket_turno, curp):
     try:
-        ticket = Cita.objects.get(turno=ticket_turno)
+        ticket = Cita.objects.get(turno=ticket_turno, alumno_cita__curp=curp)
         niveles = NivelEducativo.objects.all()
         asuntos = Asuntos.objects.all()
         municipios = Municipio.objects.all()
